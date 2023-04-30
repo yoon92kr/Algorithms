@@ -9,34 +9,31 @@ public class Solution_189 {
 
 	public String[] solution(String[] players, String[] callings) {
 		String[] answer = new String[players.length];
-
-		Map<Integer, String> map = new TreeMap<>();
-		Map<String, Integer> map2 = new HashMap<>();
+		String target = "";
+		String frontPlayer = "";
+		int index = 0;
+		Map<Integer, String> indexKey = new TreeMap<>();
+		Map<String, Integer> playerKey = new HashMap<>();
 
 		for (int i = 0; i < players.length; i++) {
-			map.put(i + 1, players[i]);
-			map2.put(players[i], i + 1);
+			indexKey.put(i + 1, players[i]);
+			playerKey.put(players[i], i + 1);
 		}
 
 		for (int i = 0; i < callings.length; i++) {
+			target = callings[i];
+			index = playerKey.get(target);
+			frontPlayer = indexKey.get(index - 1);
 
-			String call = callings[i];
-
-			int idx = map2.get(call);
-
-			String a = map.get(idx - 1);
-
-			map2.put(call, idx - 1);
-			map2.put(a, idx);
-
-			map.put(idx - 1, call);
-			map.put(idx, a);
-
+			playerKey.put(target, index - 1);
+			playerKey.put(frontPlayer, index);
+			indexKey.put(index - 1, target);
+			indexKey.put(index, frontPlayer);
 		}
 
-		int idx = 0;
-		for (int key : map.keySet()) {
-			answer[idx++] = map.get(key);
+		index = 0;
+		for (int key : indexKey.keySet()) {
+			answer[index++] = indexKey.get(key);
 		}
 
 		return answer;
