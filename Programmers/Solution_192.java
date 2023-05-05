@@ -3,13 +3,18 @@
 // Score : 100
 public class Solution_192 {
 
-	public int solution(String baseInt, String targetInt) {
+	public static int solution(String t, String p) {
+		int len = p.length();
+		long num = Long.parseLong(p);
+		int answer = 0;
 
-		return 1;
-	}
+		for (int i = 0; i <= t.length() - len; i++) {
+			if (Long.parseLong(t.substring(i, i + len)) <= num) {
+				answer++;
+			}
+		}
 
-	public static void main(String[] args) {
-		System.out.println("192.168.0.1".indexOf("192.168."));
+		return answer;
 	}
 
 }
