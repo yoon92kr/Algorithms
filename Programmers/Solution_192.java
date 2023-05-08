@@ -3,18 +3,19 @@
 // Score : 100
 public class Solution_192 {
 
-	public static int solution(String t, String p) {
-		int len = p.length();
-		long num = Long.parseLong(p);
-		int answer = 0;
+	public static int solution(String baseStr, String targetStr) {
 
-		for (int i = 0; i <= t.length() - len; i++) {
-			if (Long.parseLong(t.substring(i, i + len)) <= num) {
-				answer++;
-			}
+		int targetLen = targetStr.length();
+		int loopLen = baseStr.length() - targetLen + 1;
+		int target = Integer.parseInt(targetStr);
+		int result = 0;
+
+		for (int i = 0; i < loopLen; i++) {
+			result += Integer.parseInt(baseStr.substring(i, targetLen + i)) <= target ? 1 : 0;
 		}
 
-		return answer;
+		return result;
+
 	}
 
 }
