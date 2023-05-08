@@ -7,11 +7,11 @@ public class Solution_192 {
 
 		int targetLen = targetStr.length();
 		int loopLen = baseStr.length() - targetLen + 1;
-		int target = Integer.parseInt(targetStr);
+		long target = Long.parseLong(targetStr);
 		int result = 0;
 
 		for (int i = 0; i < loopLen; i++) {
-			result += Integer.parseInt(baseStr.substring(i, targetLen + i)) <= target ? 1 : 0;
+			result += Long.parseLong(baseStr.substring(i, targetLen + i)) <= target ? 1 : 0;
 		}
 
 		return result;
