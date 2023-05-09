@@ -3,28 +3,40 @@
 // Score : 100
 public class Solution_193 {
 
-	public int[] solution(String[] wallpaper) {
-		int[] answer = {};
-		answer = new int[4];
-		answer[0] = wallpaper.length + 1;
-		answer[1] = wallpaper.length + 1;
-		int x = 0, y = 0;
-		for (int i = 0; i < wallpaper.length; i++) {
-			if (wallpaper[i].contains("#")) {
-				x = i;
-				y = wallpaper[i].indexOf('#');
-				answer[0] = Math.min(answer[0], x);
-				answer[1] = Math.min(answer[1], y);
-				answer[2] = Math.max(answer[2], x + 1);
-				answer[3] = Math.max(answer[3], y + 1);
-				wallpaper[i] = wallpaper[i].replaceFirst("#", ".");
-				i--;
+	private static final String FILE = "#";
+	private static final int Y_START_INDEX = 0;
+	private static final int X_START_INDEX = 1;
+	private static final int[] BASE_RESULT = { 50, 50, 0, 0 }; // minY, minX, maxY, maxX
+
+	public int[] solution(String[] wallPaper) {
+
+		int height = wallPaper.length;
+		int[] dragIndex = BASE_RESULT;
+
+		for (int i = 0; i < height; i++) {
+
+			if (wallPaper[i].contains(FILE)) {
+				compareIndex(dragIndex, Y_START_INDEX, i, i);
+				compareIndex(dragIndex, X_START_INDEX, wallPaper[i].indexOf(FILE), wallPaper[i].lastIndexOf(FILE));
 			}
+
 		}
-		if (answer[0] == wallpaper.length + 1 && answer[1] == wallpaper.length + 1) {
-			answer[0] = 0;
-			answer[1] = 0;
-		}
-		return answer;
+
+		return dragIndex;
+
 	}
+
+	/**
+	 * min or max index update
+	 * 
+	 * @param jobInfo
+	 * @param commandData
+	 */
+	private void compareIndex(int[] dragIndex, int startIndex, int firstIndex, int lastIndex) {
+
+		dragIndex[startIndex] = dragIndex[startIndex] > firstIndex ? firstIndex : dragIndex[startIndex];
+		dragIndex[startIndex + 2] = dragIndex[startIndex + 2] <= lastIndex ? lastIndex + 1 : dragIndex[startIndex + 2];
+
+	}
+
 }
