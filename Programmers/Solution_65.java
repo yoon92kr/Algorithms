@@ -11,14 +11,18 @@ public class Solution_65 {
 	}
 
 	int multiplyArray(int[] A, int[] B, int len) {
+		
 		int result = 0;
 		Arrays.sort(A);
 		Integer[] tmpB = Arrays.stream(B).boxed().toArray(Integer[]::new);
 		Arrays.sort(tmpB, Comparator.reverseOrder());
+		
 		for (int i = 0; i < len; i++) {
 			result += A[i] * tmpB[i];
 		}
+		
 		return result;
+		
 	}
 
 }
