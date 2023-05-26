@@ -4,6 +4,7 @@
 public class Solution_161 {
 
 	public String[] solution(String[] quiz) {
+		
 		String[] answer = new String[quiz.length];
 
 		for (int i = 0; i < quiz.length; i++) {
