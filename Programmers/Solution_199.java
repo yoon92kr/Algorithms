@@ -5,10 +5,13 @@
 public class Solution_199 {
 
 	public int[] solution(int[] num_list, int length) {
+		
 		int[] result = new int[length];
 
 		for (int i = 0; i < length; i++) {
+			
 			result[i] = num_list[i];
+			
 		}
 
 		return result;
