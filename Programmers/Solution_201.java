@@ -4,43 +4,30 @@
 
 public class Solution_201 {
 
-	public int[] solution(String[] name, int[] yearning, String[][] photo) {
-		int[] result = new int[photo.length];
-
-		for (int i = 0; i < photo.length; i++) {
-			String strArray = convertStr(photo[i]);
-
-			for (int j = 0; j < name.length; j++) {
-				strArray.replaceAll(name[j], String.valueOf(yearning[j]));
+	public int[] solution(String[] key, int[] value, String[][] keyList) {
+		
+		int keyLen = key.length;
+		int[] answer = new int[keyLen];
+		
+		for (int i = 0; i < keyLen; i++) {
+			
+			char flag = 'A';
+			StringBuilder appendArray = new StringBuilder();
+			
+			for (int j = 0; j < keyList[i].length; j++) {
+				appendArray.append(keyList[i][j]);
+				appendArray.append("|");
 			}
-			strArray.replaceAll("/^[a-z]*$/", "0");
-			System.out.println(strArray);
-			result[i] = sumArray(strArray);
-		}
 
-		return result;
-	}
+			String resultStr = new String(appendArray);
 
-	private int sumArray(String strArray) {
-		int result = 0;
-		String[] array = strArray.split(",");
-		for (int i = 0; i < array.length; i++) {
-			result += Integer.valueOf(array[i]);
-		}
-		return result;
-	}
-
-	private String convertStr(String[] array) {
-		StringBuilder result = new StringBuilder();
-
-		for (int i = 0; i < array.length; i++) {
-			if (i != 0 || i != array.length) {
-				result.append("|");
+			for (int k = 0; k < keyLen; k++) {
+				resultStr.replace(key[k], String.valueOf(flag + k));
 			}
-			result.append(array[i]);
+
 		}
 
-		return result.toString();
-	}
+		return answer;
+    }
 
 }
