@@ -1,48 +1,40 @@
 // 문제 : 추억 점수
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 class Solution_225 {
 
-    private final int MONTH = 28;
-    private final int YEAR = 336;
+    public int[] solution(String[] name, int[] yearning, String[][] photo) {
 
-    public int[] solution(String today, String[] terms, String[] privacies) {
-
-        HashMap<String, Integer> rule = parseMap(terms, terms.length);
-        ArrayList<Integer> result = new ArrayList<Integer>();
-        String[] tmpValue;
-        int anchor = dateValue(today);
-        int runCnt = privacies.length;
+        HashMap<String, Integer> score = parseMap(name, yearning, name.length);
+        int runCnt = photo.length;
+        int peopleCnt, photoScore;
+        int[] result = new int[runCnt];
 
         for (int i = 0; i < runCnt; i++) {
-            tmpValue = privacies[i].split(" ");
-            if (dateValue(tmpValue[0]) + rule.get(tmpValue[1]) <= anchor) {
-                result.add(i + 1);
+            peopleCnt = photo[i].length;
+            photoScore = 0;
+
+            for (int j = 0; j < peopleCnt; j++) {
+                photoScore += score.containsKey(photo[i][j]) ? score.get(photo[i][j]) : 0;
             }
+
+            result[i] = photoScore;
         }
 
-        return result.stream().mapToInt(i -> i).toArray();
+        return result;
 
     }
 
-    public HashMap<String, Integer> parseMap(String[] terms, int runCnt) {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        String[] tmpValue;
+    private HashMap<String, Integer> parseMap(String[] key, int[] value, int length) {
 
-        for (int i = 0; i < runCnt; i++) {
-            tmpValue = terms[i].split(" ");
-            map.put(tmpValue[0], Integer.valueOf(tmpValue[1]) * MONTH);
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+        for (int i = 0; i < length; i++) {
+            map.put(key[i], value[i]);
         }
 
         return map;
-    }
-
-    private int dateValue(String date) {
-        int[] tmpValue = Arrays.stream(date.split("\\.")).mapToInt(Integer::parseInt).toArray();
-        return tmpValue[0] * YEAR + tmpValue[1] * MONTH + tmpValue[2];
 
     }
 
