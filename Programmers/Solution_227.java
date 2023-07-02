@@ -9,7 +9,7 @@ class Solution_227 {
 
         for (int i = 0; i < section.length; i++) {
             if (point < section[i]) {
-                point = section[i] + paint;
+                point = section[i] + paint - 1;
                 result++;
             }
         }
