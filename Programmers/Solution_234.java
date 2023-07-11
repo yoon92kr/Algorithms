@@ -1,6 +1,6 @@
 // 문제 : A 강조하기
 
-class Solution_233 {
+class Solution_234 {
 
     public String solution(String myString) {
 
