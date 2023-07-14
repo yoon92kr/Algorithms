@@ -38,7 +38,7 @@ class Solution_236 {
         char addedParam = (char) (param + idx);
 
         for (int i = 0; i < skipLen; i++) {
-            if (param <= skipArr[i] && skipArr[i] <= addedParam) {
+            if (Math.min(param, addedParam) <= skipArr[i] && skipArr[i] <= Math.max(param, addedParam)) {
                 addedParam++;
             }
         }
@@ -46,9 +46,26 @@ class Solution_236 {
         return addedParam > 122 ? (char) (addedParam - 26) : addedParam;
     }
 
-    public static void main(String[] args) {
-        Solution_236 test = new Solution_236();
-
-        System.out.println(test.solution("zzz", "a", 1));
-    }
 }
+
+/*
+ * 참고할만한 풀이
+ * 
+ * class Solution {
+ * public String solution(String s, String skip, int index) {
+ * String answer = "";
+ * String alphabet = "abcdefghijklmnopqrstuvwxyz";
+ * int idx;
+ * for(int i =0; i<skip.length();i++) {
+ * alphabet = alphabet.replace(Character.toString(skip.charAt(i)), "");
+ * }
+ * for(int i =0; i<s.length();i++) {
+ * idx=alphabet.indexOf(Character.toString(s.charAt(i)))+index;
+ * answer+= Character.toString(alphabet.charAt(idx%alphabet.length()));
+ * }
+ * 
+ * return answer;
+ * 
+ * }
+ * }
+ */
