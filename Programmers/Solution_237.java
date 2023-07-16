@@ -2,124 +2,54 @@
 
 class Solution_237 {
 
+    private String[][] newPark;
+    private int[] result = new int[2];
+    private int[] maxDistance = new int[2];
+
     public int[] solution(String[] park, String[] routes) {
-        int[][] aaa = new int[park.length][park[0].length()];// [3][4]
 
-        int p1 = 0;// 큰배열 인덱스
-        int p2 = 0;// 작은배열의 위치
-
-        for (int i = 0; i < park.length; i++) {
-            for (int j = 0; j < park[i].length(); j++) {
-                if (park[i].charAt(j) == 'S') {
-                    aaa[i][j] = 8;
-                    p1 = i;
-                    p2 = j;
-                } else if (park[i].charAt(j) == 'O') {
-                    aaa[i][j] = 0;
-                } else if (park[i].charAt(j) == 'X') {
-                    aaa[i][j] = 1;
-                }
-            }
-        } // 맵 만들기 끝
+        newPark = makePark(park, park[0].length(), park.length);
 
         for (int i = 0; i < routes.length; i++) {
-            String[] split = routes[i].split(" ");
-
-            if (p1 > park.length - 1 || p2 > routes.length - 1) {
-                break;
-            }
-
-            if (split[0].equals("E")) { // 동쪽이면 p2가 이동해야함
-                boolean check = true;
-                for (int j = p2 + 1; j <= p2 + Integer.parseInt(split[1]); j++) {
-
-                    if (j > aaa[p1].length - 1) {
-                        check = false;
-                        break;
-                    }
-
-                    if (aaa[p1][j] == 1) {
-                        check = false;
-                        break;
-                    }
-                }
-
-                if (check == true) {
-                    p2 += Integer.parseInt(split[1]);
-                    aaa[p1][p2] = 8;
-                    aaa[p1][p2 - Integer.parseInt(split[1])] = 0;
-                }
-
-            } else if (split[0].equals("S")) { // p1,p2
-                boolean check = true;
-                for (int j = p1 + 1; j <= p1 + Integer.parseInt(split[1]); j++) {
-
-                    if (j > aaa.length - 1) {
-                        check = false;
-                        break;
-                    }
-
-                    if (aaa[j][p2] == 1) {
-                        check = false;
-                        break;
-                    }
-                }
-
-                if (check == true) {
-                    p1 += Integer.parseInt(split[1]);
-                    aaa[p1][p2] = 8;
-                    aaa[p1 - Integer.parseInt(split[1])][p2] = 0;
-                }
-
-            } else if (split[0].equals("W")) {
-                boolean check = true;
-                for (int j = p2 - 1; j >= p2 - Integer.parseInt(split[1]); j--) {
-
-                    if (j < 0) {
-                        check = false;
-                        break;
-                    }
-
-                    if (aaa[p1][j] == 1) {
-                        check = false;
-                        break;
-                    }
-                }
-
-                if (check == true) {
-                    p2 -= Integer.parseInt(split[1]);
-                    aaa[p1][p2] = 8;
-                    aaa[p1][p2 + Integer.parseInt(split[1])] = 0;
-                }
-
-            } else if (split[0].equals("N")) {
-                boolean check = true;
-                for (int j = p1 - 1; j >= p1 - Integer.parseInt(split[1]); j--) {
-
-                    if (j < 0) {
-                        check = false;
-                        break;
-                    }
-
-                    if (aaa[j][p2] == 1) {
-                        check = false;
-                        break;
-                    }
-                }
-
-                if (check == true) {
-                    p1 -= Integer.parseInt(split[1]);
-                    aaa[p1][p2] = 8;
-                    aaa[p1 + Integer.parseInt(split[1])][p2] = 0;
-                }
-            }
 
         }
 
-        int[] answer = new int[2];
-        answer[0] = p1;
-        answer[1] = p2;
-        return answer;
+        return result;
+
+    }
+
+    private String[][] makePark(String[] park, int width, int height) {
+        String[][] newPark = new String[width][height];
+        maxDistance[0] = height;
+        maxDistance[1] = width;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (park[i].charAt(j) == 'S') {
+                    result[0] = i;
+                    result[1] = j;
+                }
+
+                newPark[i][j] = Character.toString(park[i].charAt(j));
+            }
+        }
+
+        return newPark;
+    }
+
+    // param[0] : direction
+    // param[1] : distance
+    private boolean canMove(String[] param) {
+        int expLct;
+        // 공원을 벗어나는지 유무를 확인한다.
+        if (param[0].equals("E") || param[0].equals("W")) {
+
+        } else {
+
+        }
+        // 경로에 장애물이 포함되어있는지 유무를 확인한다.
+
+        return true;
     }
 
 }
