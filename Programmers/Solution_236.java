@@ -1,71 +1,19 @@
 // 문제 : 둘만의 암호
 
-import java.util.Arrays;
-
 class Solution_236 {
 
-    static char[] skipArr;
-    static int skipLen;
-    static int idx;
+    private final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-    public String solution(String param, String skip, int index) {
+    public String solution(String originStr, String skip, int index) {
+        String encStr = "";
+        String availAlphabet = ALPHABET.replaceAll("[" + skip + "]", "");
 
-        String result = "";
-        int runCnt = param.length();
-        makeStatic(skip, skip.length(), index);
-
-        for (int i = 0; i < runCnt; i++) {
-            result += addIndex(param.charAt(i));
+        for (int i = 0; i < originStr.length(); i++) {
+            int idx = availAlphabet.indexOf(Character.toString(originStr.charAt(i))) + index;
+            encStr += Character.toString(availAlphabet.charAt(idx % availAlphabet.length()));
         }
 
-        return result;
+        return encStr;
 
     }
-
-    private void makeStatic(String skip, int len, int index) {
-        idx = index;
-        skipLen = len;
-        skipArr = new char[skipLen];
-
-        for (int i = 0; i < len; i++) {
-            skipArr[i] = skip.charAt(i);
-        }
-
-        Arrays.sort(skipArr);
-    }
-
-    private char addIndex(char param) {
-        char addedParam = (char) (param + idx);
-
-        for (int i = 0; i < skipLen; i++) {
-            if (Math.min(param, addedParam) <= skipArr[i] && skipArr[i] <= Math.max(param, addedParam)) {
-                addedParam++;
-            }
-        }
-
-        return addedParam > 122 ? (char) (addedParam - 26) : addedParam;
-    }
-
 }
-
-/*
- * 참고할만한 풀이
- * 
- * class Solution {
- * public String solution(String s, String skip, int index) {
- * String answer = "";
- * String alphabet = "abcdefghijklmnopqrstuvwxyz";
- * int idx;
- * for(int i =0; i<skip.length();i++) {
- * alphabet = alphabet.replace(Character.toString(skip.charAt(i)), "");
- * }
- * for(int i =0; i<s.length();i++) {
- * idx=alphabet.indexOf(Character.toString(s.charAt(i)))+index;
- * answer+= Character.toString(alphabet.charAt(idx%alphabet.length()));
- * }
- * 
- * return answer;
- * 
- * }
- * }
- */
