@@ -13,7 +13,7 @@ class Solution_237 {
         this.horizontalMap = horizontalMap;
 
         for (int i = 0; i < routes.length; i++) {
-            move(routes[i].split(""));
+            move(routes[i].split(" "));
         }
 
         return result;
@@ -45,33 +45,43 @@ class Solution_237 {
     private void move(String[] param) {
 
         int moveDist = Integer.parseInt(param[1]);
-        // 공원을 벗어나는지 유무를 확인한다.
+        // 이동 방향에 따라 공원을 벗어나는지, 장애물이 존재하는지 확인 후 좌표를 이동한다
         switch (param[0]) {
             case "E":
-                if (isRange("width", result[1] + moveDist)) {
-
-                }
+                if (isRange("width", result[1] + moveDist))
+                    result[1] += moveDist;
                 break;
             case "W":
-                isRange("width", result[1] - moveDist);
+                if (isRange("width", result[1] - moveDist))
+                    result[1] -= moveDist;
+                break;
+            case "S":
+                if (isRange("height", result[0] + moveDist))
+                    result[0] += moveDist;
                 break;
             case "N":
-            case "S":
+                if (isRange("height", result[0] - moveDist))
+                    result[0] -= moveDist;
                 break;
         }
-
-        // 경로에 장애물이 포함되어있는지 유무를 확인한다.
 
     }
 
+    // 이동 방향[direction], 이동 후 좌표[idx]
     private boolean isRange(String direction, int idx) {
-        int distIdx = 0;
-        if (direction.equals("width")) {
-            distIdx = 1;
-        }
+        int directionFlag = direction.equals("width") ? 1 : 0; // 이동 방향에 따른 값을 찾기 위한 flag 세로[0] 가로[1]
 
-        if (maxDistance[distIdx] > idx || idx < 0) {
+        // 이동 후 좌표가 공원을 벗어나는지를 확인한다
+        if (idx > maxDistance[directionFlag] || idx < 0) {
             return false;
+        } else {
+            // 공원을 벗어나지 않는다면, 이동 경로에 장애물이 존재하는지 확인한다
+            int start = Math.min(idx, result[directionFlag]); // 출발 좌표
+            int end = Math.max(idx, result[directionFlag]) + 1; // 종료 좌표
+            String pathInfo = directionFlag == 1 ? horizontalMap[result[0]] : verticalMap[result[1]]; // 이동 방향 경로의 정보
+
+            if (pathInfo.substring(start, end).contains("X"))
+                return false;
         }
 
         return true;
