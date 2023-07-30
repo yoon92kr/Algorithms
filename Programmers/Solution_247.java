@@ -4,7 +4,7 @@ class Solution_247 {
 
     public int solution(int n, String control) {
         int runCnt = control.length();
-        int result = 0;
+        int result = n;
         String[] controlArr = control.split("");
 
         for (int i = 0; i < runCnt; i++) {
@@ -22,7 +22,7 @@ class Solution_247 {
                 return -1;
             case "d":
                 return 10;
-            case "n":
+            case "a":
                 return -10;
         }
 
