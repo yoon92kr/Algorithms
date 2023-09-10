@@ -15,6 +15,7 @@ class Solution_297 {
     }
 
     private int makeOne(int param) {
+
         int runCnt = 0;
 
         while (param != 1) {
@@ -23,5 +24,6 @@ class Solution_297 {
         }
 
         return runCnt;
+
     }
 }
