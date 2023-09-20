@@ -14,6 +14,7 @@ class Solution_302 {
                 break;
             case 2: // a 인덱스 부터 마지막까지
                 startIdx = slicer[0];
+                endIdx--;
                 break;
             case 3: // a 인덱스 부터 b 인덱스까지
                 startIdx = slicer[0];
@@ -26,11 +27,10 @@ class Solution_302 {
                 break;
         }
         int len = endIdx - startIdx + 1;
-        boolean hasInterval = interval != 1;
-        int[] result = new int[len - (hasInterval ? (int) Math.ceil(len / interval) : len)];
+        int[] result = new int[len - (interval != 1 ? (int) Math.ceil(len / interval) : 0)];
         int idx = 0;
 
-        for (int i = startIdx; i < endIdx; i += interval) {
+        for (int i = startIdx; i <= endIdx; i += interval) {
             result[idx] = num_list[i];
             idx++;
         }
