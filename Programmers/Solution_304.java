@@ -2,7 +2,7 @@
 
 import java.util.Arrays;
 
-class Solution_303 {
+class Solution_304 {
 
     public int solution(String[] strArr) {
 
