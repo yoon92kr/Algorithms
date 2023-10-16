@@ -12,7 +12,7 @@ class Solution_321 {
 
         for (int i = 0; i < runCnt; i++) {
             if (i % 2 == 0) {
-                endIdx -= endIdx - query[i] - 1;
+                endIdx = startIdx + query[i];
             } else {
                 startIdx += query[i];
             }
