@@ -14,7 +14,7 @@ class Solution_326 {
 
         /* 귤 크기 별 개수를 집계 */
         for (int i = 0; i < runCnt; i++) {
-            map.put(tangerine[i], map.getOrDefault(map.get(tangerine[i]), 0) + 1);
+            map.put(tangerine[i], map.getOrDefault(tangerine[i], 0) + 1);
         }
 
         /* 개수를 추출하여 List로 만들고, 개수 순으로 정렬 */
