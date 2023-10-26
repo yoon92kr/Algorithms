@@ -12,7 +12,18 @@ class Solution_328 {
         initFaresMap(fares);
         HashMap<String, Integer> routeMap = new HashMap<String, Integer>();
         /* 루트 별 모든 비용 정보 추출 */
-        getRouteCost(s, 0, routeMap);
+        getRouteCost(s, "", 0, routeMap);
+        String routeA = String.format("[%d]", a);
+        String routeB = String.format("[%d]", b);
+        for (String key : routeMap.keySet()) {
+            if (key.contains(routeA) && key.contains(routeB) && minCost[2] > routeMap.get(key)) {
+                minCost[2] = routeMap.get(key);
+            } else if (key.contains(routeA) && minCost[0] > routeMap.get(key)) {
+                minCost[0] = routeMap.get(key);
+            } else if (key.contains(routeA) && minCost[1] > routeMap.get(key)) {
+                minCost[1] = routeMap.get(key);
+            }
+        }
 
         return Math.min(Math.min(minCost[2], minCost[3]), (minCost[0] + minCost[1]));
 
@@ -39,14 +50,17 @@ class Solution_328 {
         this.faresMap = faresMap;
     }
 
-    private void getRouteCost(int startIdx, int cost, HashMap<String, Integer> routeMap) {
-
+    /* 루트 별 비용 정보를 구하고, routeMap객체에 저장 {총 루트, 총 비용} */
+    private void getRouteCost(int startIdx, String lastRoute, int cost, HashMap<String, Integer> routeMap) {
+        lastRoute += String.format("[%d]", startIdx);
+        routeMap.put(lastRoute, cost);
         HashMap<Integer, Integer> map = faresMap.get(startIdx);
 
         for (Integer key : map.keySet()) {
-            getRouteCost(key, cost + map.get(key), routeMap);
+            if (!lastRoute.contains(String.format("[%d]", key))) {
+                getRouteCost(key, lastRoute, cost + map.get(key), routeMap);
+            }
         }
     }
-    // String.format("[%d]", a)
 
 }
