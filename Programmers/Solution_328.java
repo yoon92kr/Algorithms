@@ -1,66 +1,74 @@
 // 문제 : 합승 택시 요금
 
-import java.util.HashMap;
-
 class Solution_328 {
 
-    int[] minCost = { Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE };
-    HashMap<Integer, HashMap<Integer, Integer>> faresMap;
+    public int solution(int pointCnt, int startPoint, int destA, int destB, int[][] fares) {
+        int[][] routeArr = initRouteArr(fares, fares.length, pointCnt);
+        int index, cost, minCost = 20000000;
+        boolean[] isCheck;
 
-    public int solution(int n, int s, int a, int b, int[][] fares) {
+        /* 다익스트라 알고리즘을 이용한 포인트 간 이동 시 최소 비용 추출 */
+        for (int i = 0; i < pointCnt; i++) {
+            isCheck = new boolean[pointCnt];
+            isCheck[i] = true;
 
-        initFaresMap(fares);
-        HashMap<String, Integer> routeMap = new HashMap<String, Integer>();
-        /* 루트 별 모든 비용 정보 추출 */
-        getRouteCost(s, "", 0, routeMap);
-        String routeA = String.format("[%d]", a);
-        String routeB = String.format("[%d]", b);
-        for (String key : routeMap.keySet()) {
-            if (key.contains(routeA) && key.contains(routeB) && minCost[2] > routeMap.get(key)) {
-                minCost[2] = routeMap.get(key);
-            } else if (key.contains(routeA) && minCost[0] > routeMap.get(key)) {
-                minCost[0] = routeMap.get(key);
-            } else if (key.contains(routeA) && minCost[1] > routeMap.get(key)) {
-                minCost[1] = routeMap.get(key);
-            }
-        }
+            for (int j = 0; j < pointCnt; j++) {
+                index = nextIdx(routeArr, i, pointCnt, isCheck);
+                cost = routeArr[i][index];
 
-        return Math.min(Math.min(minCost[2], minCost[3]), (minCost[0] + minCost[1]));
-
-    }
-
-    /* 모든 비용 정보를 HashMap 객체로 생성 {출발점, {도착점, 비용}} */
-    private void initFaresMap(int[][] fares) {
-        HashMap<Integer, HashMap<Integer, Integer>> faresMap = new HashMap<Integer, HashMap<Integer, Integer>>();
-        int runCnt = fares.length;
-
-        for (int i = 0; i < runCnt; i++) {
-
-            for (int j = 0; j < 2; j++) {
-                if (faresMap.containsKey(fares[i][j])) {
-                    faresMap.get(fares[i][j]).put(fares[i][j ^ 1], fares[i][2]);
-                } else {
-                    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-                    map.put(fares[i][j ^ 1], fares[i][2]);
-                    faresMap.put(fares[i][j], map);
+                for (int k = 0; k < pointCnt; k++) {
+                    if (routeArr[k][index] + cost < routeArr[i][k]) {
+                        routeArr[i][k] = routeArr[k][index] + cost;
+                    }
                 }
             }
         }
 
-        this.faresMap = faresMap;
-    }
-
-    /* 루트 별 비용 정보를 구하고, routeMap객체에 저장 {총 루트, 총 비용} */
-    private void getRouteCost(int startIdx, String lastRoute, int cost, HashMap<String, Integer> routeMap) {
-        lastRoute += String.format("[%d]", startIdx);
-        routeMap.put(lastRoute, cost);
-        HashMap<Integer, Integer> map = faresMap.get(startIdx);
-
-        for (Integer key : map.keySet()) {
-            if (!lastRoute.contains(String.format("[%d]", key))) {
-                getRouteCost(key, lastRoute, cost + map.get(key), routeMap);
+        /* 각 포인트를 중간점으로 설정한 뒤, 목적지 A,B로 이동하는 비용 추출 */
+        for (int i = 0; i < pointCnt; i++) {
+            cost = routeArr[startPoint - 1][i] + routeArr[i][destA - 1] + routeArr[i][destB - 1];
+            if (cost < minCost) {
+                minCost = cost;
             }
         }
+
+        return minCost;
+    }
+
+    /* 포인트 간 이동 비용을 2차원 배열 형태로 생성한다. 비용정보(farse)에 값이 없을 경우, 최대요금을 입력한다 */
+    private int[][] initRouteArr(int[][] farse, int farseLen, int pointCnt) {
+        int[][] routeArr = new int[pointCnt][pointCnt];
+
+        for (int i = 0; i < farseLen; i++) {
+            routeArr[farse[i][0] - 1][farse[i][1] - 1] = farse[i][2];
+            routeArr[farse[i][1] - 1][farse[i][0] - 1] = farse[i][2];
+        }
+
+        for (int j = 0; j < pointCnt; j++) {
+            for (int k = 0; k < pointCnt; k++) {
+                if (j != k && routeArr[j][k] == 0) {
+                    routeArr[j][k] = 20000000;
+                }
+            }
+        }
+
+        return routeArr;
+    }
+
+    private int nextIdx(int[][] routeArr, int point, int runCnt, boolean[] isCheck) {
+        int minVal = 20000000;
+        int minIdx = runCnt - 1;
+
+        for (int i = 0; i < runCnt; i++) {
+            if (!isCheck[i] && minVal > routeArr[point][i]) {
+                minVal = routeArr[point][i];
+                minIdx = i;
+            }
+        }
+
+        isCheck[minIdx] = true;
+
+        return minIdx;
     }
 
 }
