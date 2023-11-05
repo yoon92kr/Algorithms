@@ -13,26 +13,34 @@ class Solution_333 {
         List<Integer> queue = Arrays.stream(priorities).boxed().collect(Collectors.toList());
         List<Integer> keyList = getDistKeyArray(priorities, priorities.length);
         int tryCnt = 0;
-        int result = location;
 
         while (true) {
             if (queue.get(0) == keyList.get(0)) {
                 queue.remove(0);
                 tryCnt++;
+                if (location == 0) {
+                    break;
+                }
             } else {
                 queue.add(queue.get(0));
                 queue.remove(0);
             }
 
+            location--;
+            if (location < 0) {
+                location += queue.size();
+            }
+
+            /* 더이상 queue에 최대값이 없을경우 다음값을 찾는다 */
             if (!queue.contains(keyList.get(0))) {
-                keyList.remove(0); // 더이상 queue에 최대값이 없을경우 다음값을 찾는다
-                break;
+                keyList.remove(0);
             }
         }
 
         return tryCnt;
     }
 
+    // queue안의 유일 키를 확인한다.
     private List<Integer> getDistKeyArray(int[] priorities, int len) {
 
         List<Integer> list = new ArrayList<Integer>();
