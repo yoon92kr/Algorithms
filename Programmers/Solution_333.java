@@ -12,16 +12,25 @@ class Solution_333 {
 
         List<Integer> queue = Arrays.stream(priorities).boxed().collect(Collectors.toList());
         List<Integer> keyList = getDistKeyArray(priorities, priorities.length);
-
+        int tryCnt = 0;
         int result = location;
 
         while (true) {
             if (queue.get(0) == keyList.get(0)) {
+                queue.remove(0);
+                tryCnt++;
+            } else {
+                queue.add(queue.get(0));
+                queue.remove(0);
+            }
 
+            if (!queue.contains(keyList.get(0))) {
+                keyList.remove(0); // 더이상 queue에 최대값이 없을경우 다음값을 찾는다
+                break;
             }
         }
 
-        return result;
+        return tryCnt;
     }
 
     private List<Integer> getDistKeyArray(int[] priorities, int len) {
