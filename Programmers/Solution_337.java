@@ -1,20 +1,41 @@
-// 문제 : [1차] 뉴스 클러스터링
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+// 문제 : 에어컨
 
 class Solution_337 {
 
-    public int solution(String str1, String str2) {
-        int answer = 0;
-        return answer;
+    int minCost, cost, on, keep;
+
+    public int solution(int temperature, int t1, int t2, int a, int b, int[] onboard) {
+
+        setOption(a, b, onboard.length);
+
+        for (int i = 0; i < onboard.length; i++) {
+            dff(temperature, t1, t2, 0);
+        }
+
+        return minCost;
     }
 
-    public static void main(String[] args) {
+    private void setOption(int onPower, int keepPower, int len) {
+        this.minCost = Math.max(onPower, keepPower) * len;
+        this.cost = 0;
+        this.on = onPower;
+        this.keep = keepPower;
+    }
 
-        String myDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(1344320225000L));
-        System.out.println(myDate);
+    private void dff(int temp, int minTemp, int maxTemp, int usePower) {
 
+    }
+
+    private void powerOff() {
+        this.cost = 0;
+    }
+
+    private void powerOn() {
+        this.cost = on;
+    }
+
+    private void keepTemp() {
+        this.cost = keep;
     }
 
 }
