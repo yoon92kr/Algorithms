@@ -8,8 +8,9 @@ class Solution_337 {
 
         setOption(a, b, onboard.length);
 
-        for (int i = 0; i < onboard.length; i++) {
-            dff(temperature, t1, t2, 0);
+        for (int i = t1; i < t2; i++) {
+
+            dff(temperature, t1, t2, 0, 0, onboard);
         }
 
         return minCost;
@@ -22,20 +23,8 @@ class Solution_337 {
         this.keep = keepPower;
     }
 
-    private void dff(int temp, int minTemp, int maxTemp, int usePower) {
+    private void dff(int temp, int minTemp, int maxTemp, int usePower, int idx, int[] onboard) {
 
-    }
-
-    private void powerOff() {
-        this.cost = 0;
-    }
-
-    private void powerOn() {
-        this.cost = on;
-    }
-
-    private void keepTemp() {
-        this.cost = keep;
     }
 
 }
