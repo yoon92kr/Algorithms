@@ -14,13 +14,16 @@ class Solution_337 {
         }
 
         return minCost;
+
     }
 
     private void setOption(int onPower, int keepPower, int len) {
+
         this.minCost = Math.max(onPower, keepPower) * len;
         this.cost = 0;
         this.on = onPower;
         this.keep = keepPower;
+
     }
 
     private void dff(int temp, int minTemp, int maxTemp, int usePower, int idx, int[] onboard) {
