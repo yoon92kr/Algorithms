@@ -1,32 +1,39 @@
-// 문제 : 에어컨
+// 문제 : [PCCP 기출문제] 1번
 
 class Solution_337 {
 
-    int minCost, cost, on, keep;
+    public int solution(int[] bandage, int health, int[][] attacks) {
 
-    public int solution(int temperature, int t1, int t2, int a, int b, int[] onboard) {
+        int lastSec = attacks[attacks.length - 1][0];
+        int time = 0, idx = 0, hp = health;
 
-        setOption(a, b, onboard.length);
+        /* 초 단위로 반복문 실행 */
+        for (int i = 1; i <= lastSec; i++) {
+            if (attacks[idx][0] == i) { // 공격한 시간이 현새 초와 같을경우
+                time = 0;
+                hp -= attacks[idx][1];
+                idx++;
+            } else {
+                time++;
+                hp += bandage[1]; // 초당 회복량 만큼 회복
+                if (time == bandage[0]) {// 시전 시간이 유지될 경우 추가회복 및 초기화
+                    time = 0;
+                    hp += bandage[2];
+                }
 
-        for (int i = t1; i < t2; i++) {
+                if (hp > health) {
+                    hp = health;
+                }
 
-            dff(temperature, t1, t2, 0, 0, onboard);
+            }
+
+            if (hp <= 0) { // 캐릭터가 죽을경우 반복문 종료
+                hp = -1;
+                break;
+            }
         }
 
-        return minCost;
-
-    }
-
-    private void setOption(int onPower, int keepPower, int len) {
-
-        this.minCost = Math.max(onPower, keepPower) * len;
-        this.cost = 0;
-        this.on = onPower;
-        this.keep = keepPower;
-
-    }
-
-    private void dff(int temp, int minTemp, int maxTemp, int usePower, int idx, int[] onboard) {
+        return hp;
 
     }
 
