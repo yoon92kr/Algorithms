@@ -8,7 +8,7 @@ class Solution_341 {
     public int solution(String[][] board, int h, int w) {
 
         int blockCnt = 0;
-        maxIdx = board.length - 1;
+        maxIdx = board.length;
 
         for (int i = 0; i < 4; i++) {
             if (isInIdx(dh[i] + h) && isInIdx(dw[i] + w)) {
