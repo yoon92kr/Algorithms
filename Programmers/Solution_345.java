@@ -2,10 +2,12 @@
 
 import java.util.Scanner;
 
-class Solution_344 {
+class Solution_345 {
 
     public class Solution {
+
         public static void main(String[] args) {
+
             Scanner sc = new Scanner(System.in);
             int start = sc.nextInt();
             int before = sc.nextInt();
@@ -24,6 +26,7 @@ class Solution_344 {
             }
 
             System.out.println(month);
+            sc.close();
         }
     }
 
